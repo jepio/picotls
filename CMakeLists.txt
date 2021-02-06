@@ -95,7 +95,8 @@ SET(TEST_EXES test-minicrypto.t)
 
 
 ADD_LIBRARY(picotls-aarch64cryptolib lib/aarch64cryptolib.c)
-    TARGET_LINK_LIBRARIES(picotls-aarch64cryptolib picotls-core ${CMAKE_DL_LIBS})
+TARGET_LINK_LIBRARIES(picotls-aarch64cryptolib picotls-core ${CMAKE_DL_LIBS})
+TARGET_INCLUDE_DIRECTORIES(picotls-aarch64cryptolib PRIVATE /home/jeremi/AArch64cryptolib)
 
 SET(PTLSBENCH_LIBS
     picotls-minicrypto picotls-core)
