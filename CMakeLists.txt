@@ -94,6 +94,9 @@ ADD_EXECUTABLE(test-minicrypto.t
 SET(TEST_EXES test-minicrypto.t)
 
 
+ADD_LIBRARY(picotls-aarch64cryptolib lib/aarch64cryptolib.c)
+    TARGET_LINK_LIBRARIES(picotls-aarch64cryptolib picotls-core ${CMAKE_DL_LIBS})
+
 SET(PTLSBENCH_LIBS
     picotls-minicrypto picotls-core)
 
@@ -155,9 +158,11 @@ IF ((CMAKE_SIZEOF_VOID_P EQUAL 8) AND
     LIST(APPEND PTLSBENCH_LIBS picotls-fusion)
 ENDIF ()
 
+if (0)
 ADD_EXECUTABLE(ptlsbench t/ptlsbench.c)
 SET_TARGET_PROPERTIES(ptlsbench PROPERTIES COMPILE_FLAGS "-DPTLS_MEMORY_DEBUG=1")
 TARGET_LINK_LIBRARIES(ptlsbench ${PTLSBENCH_LIBS})
+endif()
 
 ADD_CUSTOM_TARGET(check env BINARY_DIR=${CMAKE_CURRENT_BINARY_DIR} prove --exec '' -v ${CMAKE_CURRENT_BINARY_DIR}/*.t t/*.t WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DEPENDS ${TEST_EXES} cli)
 
