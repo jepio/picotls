@@ -633,11 +633,7 @@ static size_t aead_encrypt(struct st_ptls_traffic_protection_t *ctx, void *outpu
 
     ((uint8_t *)input)[inlen] = content_type;
     build_aad(aad, inlen + 1 + ctx->aead->algo->tag_size);
-    ptls_aead_encrypt_init(ctx->aead, ctx->seq++, aad, sizeof(aad));
-    off += ptls_aead_encrypt_update(ctx->aead, ((uint8_t *)output) + off, input, inlen+1);
-    //off += ptls_aead_encrypt_update(ctx->aead, ((uint8_t *)output) + off, &content_type, 1);
-    off += ptls_aead_encrypt_final(ctx->aead, ((uint8_t *)output) + off);
-
+    off += ptls_aead_encrypt(ctx->aead, output, input, inlen+1, ctx->seq++, aad, sizeof(aad));
     return off;
 }
 

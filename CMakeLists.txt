@@ -96,6 +96,7 @@ SET(TEST_EXES test-minicrypto.t)
 
 ADD_LIBRARY(picotls-aarch64cryptolib lib/aarch64cryptolib.c)
 TARGET_LINK_LIBRARIES(picotls-aarch64cryptolib picotls-core ${CMAKE_DL_LIBS})
+TARGET_LINK_LIBRARIES(picotls-aarch64cryptolib /home/jeremi/AArch64cryptolib/libAArch64crypto.a)
 TARGET_INCLUDE_DIRECTORIES(picotls-aarch64cryptolib PRIVATE /home/jeremi/AArch64cryptolib)
 
 SET(PTLSBENCH_LIBS
@@ -108,7 +109,7 @@ IF (OPENSSL_FOUND AND NOT (OPENSSL_VERSION VERSION_LESS "1.0.1"))
     ADD_LIBRARY(picotls-openssl lib/openssl.c)
     TARGET_LINK_LIBRARIES(picotls-openssl ${OPENSSL_LIBRARIES} picotls-core ${CMAKE_DL_LIBS})
     ADD_EXECUTABLE(cli t/cli.c lib/pembase64.c)
-    TARGET_LINK_LIBRARIES(cli picotls-openssl picotls-core)
+    TARGET_LINK_LIBRARIES(cli picotls-openssl picotls-aarch64cryptolib picotls-core)
     ADD_EXECUTABLE(picotls-esni src/esni.c)
     TARGET_LINK_LIBRARIES(picotls-esni picotls-openssl picotls-core ${OPENSSL_LIBRARIES} ${CMAKE_DL_LIBS})
 

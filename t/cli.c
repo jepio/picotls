@@ -48,7 +48,8 @@
 #endif
 #include "picotls.h"
 #include "picotls/openssl.h"
-#if PICOTLS_USE_BROTLI
+#include "picotls/aarch64cryptolib.h"
+#if PICOTLS_USE_BROTL
 #include "picotls/certificate_compression.h"
 #endif
 #include "util.h"
@@ -393,7 +394,8 @@ int main(int argc, char **argv)
 
     ptls_key_exchange_algorithm_t *key_exchanges[128] = {NULL};
     ptls_cipher_suite_t *cipher_suites[128] = {NULL};
-    ptls_context_t ctx = {ptls_openssl_random_bytes, &ptls_get_time, key_exchanges, cipher_suites};
+    ptls_cipher_suite_t *cipher_suites_2[128] = {&ptls_aarch64cryptolib_aes256gcmsha384, NULL};
+    ptls_context_t ctx = {ptls_openssl_random_bytes, &ptls_get_time, key_exchanges, cipher_suites_2};
     ptls_handshake_properties_t hsprop = {{{{NULL}}}};
     const char *host, *port, *input_file = NULL, *esni_file = NULL;
     struct {
